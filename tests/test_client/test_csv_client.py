@@ -44,5 +44,11 @@ def test_find_by():
     client.insert(
         table_name=TABLE_NAME, data=data3)
 
-    result: tuple[str, ...] = client.find_by(
-        table_name=TABLE_NAME, prop='', value='')
+    result: list[list[str]] = client.find_by(
+        table_name=TABLE_NAME, prop='id', value='data1_id')
+
+    assert len(result) == 1
+    assert len(result[0]) == len(columns)
+    assert result[0][0] == data1[0]
+    assert result[0][1] == data1[1]
+    assert result[0][2] == data1[2]
