@@ -7,11 +7,11 @@ class NotFound(Exception):
     pass
 
 
-class Projects(BaseModel):
+class Project(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     url: str
     commit_hash: str
 
     @classmethod
-    def clone(cla, url: str):
+    def clone(cls, url: str):
         repo = git.Repo.clone_from(url, "./", no_checkout=True)
