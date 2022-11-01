@@ -1,4 +1,4 @@
-#!/Users/tamofplease/Workspace/research/c_macro_variable_analysis/c_macro_extractor/.venv/bin/python3
+#!/Users/tamofplease/Workspace/research/c_macro_variable_analysis/c_macro_extractor/.venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
