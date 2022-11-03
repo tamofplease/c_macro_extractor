@@ -52,3 +52,5 @@ def test_find_by():
     assert result[0]['id'] == data1[0]
     assert result[0]['name'] == data1[1]
     assert result[0]['url'] == data1[2]
+
+    os.remove(TGT_PATH)
