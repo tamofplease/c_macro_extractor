@@ -22,7 +22,6 @@ class CsvClient():
 
     def insert(self, table_name: str, data: tuple[str, ...]) -> tuple[str, ...]:
         tgt_path: str = self.__get_output_path(table_name=table_name)
-        print(tgt_path)
 
         if not os.path.exists(tgt_path):
             raise FileNotFoundException()
@@ -32,16 +31,19 @@ class CsvClient():
             writer.writerow(data)
         return data
 
-    def list_all(self, table_name: str):
+    def list_all(self, table_name: str) -> list[dict[str, str]]:
         tgt_path = self.__get_output_path(table_name=table_name)
         if not os.path.exists(tgt_path):
             raise FileNotFoundException()
 
         with open(tgt_path, "r", encoding='utf-8') as f_out:
             reader = csv.reader(f_out)
-            return [row for row in list(reader)][1:]
+            columns = next(reader)
+            data = list(reader)
+            return [dict(zip(columns, dt))
+                    for dt in data]
 
-    def find_by(self, table_name: str, prop: str, value: str) -> list[list[str]]:
+    def find_by(self, table_name: str, prop: str, value: str) -> list[dict[str, str]]:
         tgt_path = self.__get_output_path(table_name=table_name)
         if not os.path.exists(tgt_path):
             raise FileNotFoundException()
@@ -53,8 +55,6 @@ class CsvClient():
                 raise Exception('invalid prop specify')
             idx = columns.index(prop)
             data = list(reader)
-            result = [dt for dt in data if dt[idx] == value]
+            result = [dict(zip(columns, dt))
+                      for dt in data if dt[idx] == value]
             return result
-
-# load_dotenv()
-# path = environ['DB_ROOT_PATH']
