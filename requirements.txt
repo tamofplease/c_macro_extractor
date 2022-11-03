@@ -17,9 +17,10 @@ pydantic==1.10.2
 pylint==2.15.5
 pyparsing==3.0.9
 pytest==7.2.0
+pytest-dotenv==0.5.2
 python-dotenv==0.21.0
 smmap==5.0.0
 tomli==2.0.1
 tomlkit==0.11.6
-typing-extensions==4.4.0
+typing_extensions==4.4.0
 wrapt==1.14.1
