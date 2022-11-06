@@ -1,15 +1,15 @@
-# from src.project.models import Project
+import io
+from dotenv import load_dotenv
+from os import environ, path
+from src.project.command import add_project
 
 
-# def test_clone_project():
-#     cmd = CloneProjectCommand(
-#         url="https://github.com/radareorg/radare2.git"
-#     )
+def test_add_project(monkeypatch):
+    load_dotenv()
+    url = "https://github.com/radareorg/radare2.git"
+    monkeypatch.setattr('sys.stdin', io.StringIO(url))
+    add_project()
+    db_path, project_root_path = environ['DB_ROOT_PATH'], environ['PROJECT_ROOT_PATH']
 
-#     project = cmd.execute()
-
-#     db_project = Project.get_by_id(project.id)
-
-#     assert db_project.id == project.id
-#     assert db_project.url == project.url
-#     assert db_project.name == project.name
+    assert path.exists(db_path)
+    assert path.exists(project_root_path + 'radare2')

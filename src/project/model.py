@@ -47,7 +47,7 @@ class Project(BaseModel):
         return [cls(**record) for record in data][0]
 
     @classmethod
-    def clone(cls, url: str):
+    def clone(cls, url: str) -> "Project":
         output_folder = './cloned_projects'
         name = url.rsplit('/', maxsplit=1)[-1].split('.')[0]
         output_path = output_folder + '/' + name
