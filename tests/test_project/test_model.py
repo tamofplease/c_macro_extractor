@@ -33,7 +33,7 @@ def test_clone(project_zstd):
     url = project_zstd.url
     name = project_zstd.name
     cloned_project = Project.clone(url)
-    output_path = f"./cloned_projects/{name}"
+    output_path = environ['PROJECT_ROOT_PATH'] + '/' + name
 
     assert cloned_project.url == url
     assert cloned_project.name == name

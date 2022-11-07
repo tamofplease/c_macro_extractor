@@ -1,5 +1,5 @@
 import uuid
-from os import environ,  path
+from os import environ,  path, makedirs
 from typing import List
 from shutil import rmtree
 from pydantic import BaseModel, Field
@@ -48,7 +48,7 @@ class Project(BaseModel):
 
     @classmethod
     def clone(cls, url: str) -> "Project":
-        output_folder = './cloned_projects'
+        output_folder = environ['PROJECT_ROOT_PATH']
         name = url.rsplit('/', maxsplit=1)[-1].split('.')[0]
         output_path = output_folder + '/' + name
         if path.exists(output_path):
@@ -65,6 +65,8 @@ class Project(BaseModel):
     def create_table(cls):
         load_dotenv()
         db_path = environ['DB_ROOT_PATH']
+        if not path.exists(db_path):
+            makedirs(db_path)
         client = CsvClient(db_path=db_path)
         client.create_table(table_name='project', columns=[
                             'id', 'name', 'url', 'commit_hash'])
