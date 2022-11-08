@@ -2,6 +2,10 @@ name: Pylint and Pytest
 
 on: [push]
 
+env:
+  DB_ROOT_PATH: ./out/db
+  PROJECT_ROOT_PATH: ./out/cloned_project
+
 jobs:
   build:
     runs-on: ubuntu-latest

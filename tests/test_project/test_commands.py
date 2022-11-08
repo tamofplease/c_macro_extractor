@@ -29,5 +29,5 @@ def test_add_projects():
 @pytest.fixture(scope='function', autouse=True)
 def scope_function():
     yield
-    rmtree(DB_ROOT_PATH, ignore_errors=True)
-    rmtree(PROJECT_ROOT_PATH, ignore_errors=True)
+    rmtree(DB_ROOT_PATH)
+    rmtree(PROJECT_ROOT_PATH)
