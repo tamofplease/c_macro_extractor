@@ -1,5 +1,7 @@
 ## What is this project for?
 
+This Project is created for clone project and extract infomation of specific repository
+
 ## Getting start
 
 1. activate venv
