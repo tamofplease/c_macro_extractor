@@ -9,8 +9,8 @@ add_one_project:
 
 .PHONY: clone_projects
 clone_projects:
-	python -c "from src.project import command: command.add_projects()"
+	python -c "from src.project import command; command.add_projects()"
 
 .PHONY: test_all
 test_all:
-	python -m pytest -s
+	python -m pytest ./tests

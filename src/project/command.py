@@ -6,7 +6,7 @@ import tqdm
 from src.project.model import Project
 
 
-def add_project(url: Optional[str]):
+def add_project(url: Optional[str] = None):
     load_dotenv()
     if not url:
         url = input('\033[96m' + 'Please input github url: ')
@@ -17,7 +17,8 @@ def add_project(url: Optional[str]):
     cloned_project.save()
 
 
-def add_projects(url: Optional[str], force=False):
+def add_projects(url: Optional[str] = None, force=False):
+    load_dotenv()
     if not url:
         url = './project_list'
     db_path, project_root_path = environ['DB_ROOT_PATH'], environ['PROJECT_ROOT_PATH']
