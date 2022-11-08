@@ -3,9 +3,9 @@ from os import environ,  path, makedirs
 from typing import List
 from shutil import rmtree
 from pydantic import BaseModel, Field
-from dotenv import load_dotenv
 import git
 from src.client.csv import CsvClient
+from src.config import DB_ROOT_PATH
 
 
 class NotFound(Exception):
@@ -20,26 +20,20 @@ class Project(BaseModel):
 
     @classmethod
     def list(cls) -> List["Project"]:
-        load_dotenv()
-        db_path = environ['DB_ROOT_PATH']
-        client = CsvClient(db_path=db_path)
+        client = CsvClient(db_path=DB_ROOT_PATH)
         projects = [cls(**record)
                     for record in client.list_all(table_name='project')]
         return projects
 
     def save(self) -> "Project":
-        load_dotenv()
-        db_path = environ['DB_ROOT_PATH']
-        client = CsvClient(db_path=db_path)
+        client = CsvClient(db_path=DB_ROOT_PATH)
         client.insert(table_name='project', data=(
             self.id, self.name, self.url, self.commit_hash))
         return self
 
     @classmethod
     def get_by_id(cls, project_id: str) -> "Project":
-        load_dotenv()
-        db_path = environ['DB_ROOT_PATH']
-        client = CsvClient(db_path=db_path)
+        client = CsvClient(db_path=DB_ROOT_PATH)
         data = client.find_by(table_name='project',
                               prop='id', value=project_id)
         if len(data) == 0:
@@ -63,10 +57,8 @@ class Project(BaseModel):
 
     @classmethod
     def create_table(cls):
-        load_dotenv()
-        db_path = environ['DB_ROOT_PATH']
-        if not path.exists(db_path):
-            makedirs(db_path)
-        client = CsvClient(db_path=db_path)
+        if not path.exists(DB_ROOT_PATH):
+            makedirs(DB_ROOT_PATH)
+        client = CsvClient(db_path=DB_ROOT_PATH)
         client.create_table(table_name='project', columns=[
                             'id', 'name', 'url', 'commit_hash'])

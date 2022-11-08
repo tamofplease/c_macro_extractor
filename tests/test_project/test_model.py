@@ -1,13 +1,9 @@
 from os import environ, path, makedirs
 from shutil import rmtree
 from typing import List
-from dotenv import load_dotenv
 import pytest
 from src.project.model import Project
-
-
-load_dotenv()
-db_path = environ['DB_ROOT_PATH']
+from src.config import DB_ROOT_PATH
 
 
 @pytest.fixture(name='project_zstd')
@@ -43,11 +39,11 @@ def test_clone(project_zstd):
 
 
 def test_create_table():
-    if not path.exists(db_path):
-        makedirs(db_path)
+    if not path.exists(DB_ROOT_PATH):
+        makedirs(DB_ROOT_PATH)
     Project.create_table()
 
-    assert path.exists(db_path + '/project.csv')
+    assert path.exists(DB_ROOT_PATH + '/project.csv')
 
 
 def test_save(project_zstd):
@@ -81,7 +77,7 @@ def test_list(project_zstd, project_micropython):
     assert fetched_projects[1].url == project_micropython.url
     assert fetched_projects[1].commit_hash == project_micropython.commit_hash
 
-    rmtree(db_path)
+    rmtree(DB_ROOT_PATH)
 
 
 # @pytest.fixture(scope='function', autouse=True)
