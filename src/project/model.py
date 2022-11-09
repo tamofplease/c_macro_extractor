@@ -1,11 +1,11 @@
 import uuid
-from os import environ,  path, makedirs
+from os import path, makedirs
 from typing import List
 from shutil import rmtree
 from pydantic import BaseModel, Field
 import git
 from src.client.csv import CsvClient
-from src.config import DB_ROOT_PATH
+from src.config import DB_ROOT_PATH, PROJECT_ROOT_PATH
 
 
 class NotFound(Exception):
@@ -42,9 +42,8 @@ class Project(BaseModel):
 
     @classmethod
     def clone(cls, url: str) -> "Project":
-        output_folder = environ['PROJECT_ROOT_PATH']
         name = url.rsplit('/', maxsplit=1)[-1].split('.')[0]
-        output_path = output_folder + '/' + name
+        output_path = PROJECT_ROOT_PATH + '/' + name
         if path.exists(output_path):
             rmtree(output_path)
         repo = git.Repo.clone_from(url, output_path)
