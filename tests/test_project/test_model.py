@@ -1,4 +1,4 @@
-from os import environ, path, makedirs
+from os import environ, path
 from shutil import rmtree
 from typing import List
 import pytest
@@ -39,8 +39,6 @@ def test_clone(project_zstd):
 
 
 def test_create_table():
-    if not path.exists(DB_ROOT_PATH):
-        makedirs(DB_ROOT_PATH)
     Project.create_table()
 
     assert path.exists(DB_ROOT_PATH + '/project.csv')
