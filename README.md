@@ -10,6 +10,8 @@ This Project is created for clone project and extract infomation of specific rep
 
 2. setting config files
 
+run
+
 `make config`
 
 and update each config path
