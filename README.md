@@ -21,3 +21,5 @@ and update each config path
 3. clone projects
 
 `make clone_projects`
+
+This commmand create `project.csv` below the `DB_ROOT_PATH` folder you speficy in .env and clone project below the `PROJECT_ROOT_PATH`
