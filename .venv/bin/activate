@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/tamofplease/Workspace/research/c_macro_variable_analysis/c_macro_extractor/.venv"
+VIRTUAL_ENV="/Users/tamofplease/Workspace/research/c_macro_variable_analysis/c_project_fetcher/.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
