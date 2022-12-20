@@ -46,7 +46,8 @@ class Project(BaseModel):
         output_path = PROJECT_ROOT_PATH + '/' + name
         if path.exists(output_path):
             rmtree(output_path)
-        repo = git.Repo.clone_from(url, output_path)
+        repo = git.Repo.clone_from(
+            url, output_path, multi_options=["--recursive"])
         new_commit = repo.head.commit
         return Project(
             name=name,
