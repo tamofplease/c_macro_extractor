@@ -1,7 +1,7 @@
 .PHONY: config
 config:
-	cp -n ./.env.example ./.env
-	cp -n ./.env.example ./.test.env
+	cp -f ./.env.example ./.env
+	cp -f ./.env.example ./.test.env
 
 .PHONY: add_one_project
 add_one_project:

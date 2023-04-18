@@ -1,6 +1,7 @@
 import uuid
 from os import path, makedirs
 from typing import List
+from glob import glob
 from shutil import rmtree
 from pydantic import BaseModel, Field
 import git
@@ -17,6 +18,8 @@ class Project(BaseModel):
     name: str
     url: str
     commit_hash: str
+    c_files: int
+    h_files: int
 
     @classmethod
     def list(cls) -> List["Project"]:
@@ -28,7 +31,7 @@ class Project(BaseModel):
     def save(self) -> "Project":
         client = CsvClient(db_path=DB_ROOT_PATH)
         client.insert(table_name='project', data=(
-            self.id, self.name, self.url, self.commit_hash))
+            self.id, self.name, self.url, self.commit_hash, self.c_files, self.h_files))
         return self
 
     @classmethod
@@ -37,7 +40,7 @@ class Project(BaseModel):
         data = client.find_by(table_name='project',
                               prop='id', value=project_id)
         if len(data) == 0:
-            raise Exception('data did not found', project_id)
+            raise NotFound('data did not found', project_id)
         return [cls(**record) for record in data][0]
 
     @classmethod
@@ -49,10 +52,15 @@ class Project(BaseModel):
         repo = git.Repo.clone_from(
             url, output_path, multi_options=["--recursive"])
         new_commit = repo.head.commit
+        c_files = len(
+            glob(path.join(output_path, "**/*.c"), recursive=True))
+        h_files = len(glob(path.join(output_path, "**/*.h"), recursive=True))
         return Project(
             name=name,
             url=url,
-            commit_hash=new_commit.hexsha
+            commit_hash=new_commit.hexsha,
+            c_files=c_files,
+            h_files=h_files,
         )
 
     @classmethod
@@ -61,4 +69,4 @@ class Project(BaseModel):
             makedirs(DB_ROOT_PATH)
         client = CsvClient(db_path=DB_ROOT_PATH)
         client.create_table(table_name='project', columns=[
-                            'id', 'name', 'url', 'commit_hash'])
+                            'id', 'name', 'url', 'commit_hash', 'c_files', 'h_files'])
